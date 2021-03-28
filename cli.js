@@ -12,7 +12,14 @@ program
   .action((...args) => {
     const title = args.slice(0,-1).join(' ')
     api.add(title)
-    // console.log('add tasks')
   });
+
+program
+  .command('clear')
+  .description('clear all tasks')
+  .action((...args) => {
+    api.clear()
+  });
+
 
 program.parse(process.argv)
