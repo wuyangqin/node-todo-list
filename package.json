@@ -1,7 +1,13 @@
 {
-  "name": "node-todo",
-  "version": "0.0.0",
+  "name": "node-todo-xx",
+  "version": "0.0.1",
   "main": "index.js",
+  "bin": {
+    "todo": "cli.js"
+  },
+  "files": [
+    "*.js"
+  ],
   "license": "MIT",
   "dependencies": {
     "commander": "^3.0.2",
