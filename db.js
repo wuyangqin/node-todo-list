@@ -22,15 +22,11 @@ const db = {
       })
     })
   },
-  write(list, toast= '操作', path = dbPath) {
+  write(list, path = dbPath) {
     return new Promise((resolve, reject) => {
       const string = JSON.stringify(list)
       fs.writeFile(path,string + '\n',(writeError)=>{
-        if(writeError) {
-          console.log(`${toast}失败`)
-          return reject(writeError)
-        }
-        console.log(`${toast}成功`)
+        if(writeError) return reject(writeError)
         resolve()
       })
     })

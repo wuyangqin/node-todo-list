@@ -1,14 +1,21 @@
 const db = require('./db.js');
 const inquirer = require('inquirer')
 
+function writeFile (list, toast = '操作') {
+  db.write(list).then(
+    () => { console.log(`${toast}成功`) },
+    () => { console.log(`${toast}失败`) }
+    )
+}
+
 module.exports.add = async (title) => {
   const list = await db.read()
   list.push({ title, done: false })
-  await db.write(list, '添加')
+  writeFile(list,'添加')
 }
 
-module.exports.clear = async () => {
-  await db.write([], '清除')
+module.exports.clear = () => {
+  writeFile([],'清除')
 }
 
 function printTasks (list) {
@@ -59,14 +66,14 @@ function askForAction (list, index) {
   })
 }
 
-async function markAsDone(list, index) {
+function markAsDone(list, index) {
   list[index].done = true
-  await db.write(list)
+  writeFile(list)
 }
 
-async function markAsUndone(list, index) {
+function markAsUndone(list, index) {
   list[index].done = false
-  await db.write(list)
+  writeFile(list)
 }
 
 function updateTitle(list, index) {
@@ -75,15 +82,15 @@ function updateTitle(list, index) {
     name: 'title',
     message: '新的标题',
     default: list[index].title
-  }).then(async answer => {
+  }).then(answer => {
     list[index].title = answer.title
-    await db.write(list, '修改')
+    writeFile(list,'修改')
   })
 }
 
-async function remove(list, index) {
+function remove(list, index) {
   list.splice(index, 1)
-  await db.write(list, '删除')
+  writeFile(list,'删除')
 }
 
 function askForCreateTask (list) {
@@ -91,9 +98,9 @@ function askForCreateTask (list) {
     type: 'input',
     name: 'title',
     message: '请输入任务标题：'
-  }).then(async answer => {
+  }).then(answer => {
     list.push({ title: answer.title, done: false })
-    await db.write(list, '添加')
+    writeFile(list,'添加')
   })
 }
 
